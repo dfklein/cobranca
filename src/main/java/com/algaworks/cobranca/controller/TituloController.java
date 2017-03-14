@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,6 +30,14 @@ public class TituloController {
 	
 	@Autowired
 	private CadastroTituloService cadastroTituloService;
+	
+	@RequestMapping
+	public ModelAndView pesquisar() {
+		List<Titulo> todosTitulos = titulos.findAll();
+		ModelAndView mv = new ModelAndView("PesquisaTitulos");
+		mv.addObject("titulos", todosTitulos);
+		return mv;
+	}
 
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
@@ -69,12 +78,15 @@ public class TituloController {
 		return "redirect:/titulos"; 
 	}
 	
-	@RequestMapping
-	public ModelAndView pesquisar() {
-		List<Titulo> todosTitulos = titulos.findAll();
-		ModelAndView mv = new ModelAndView("PesquisaTitulos");
-		mv.addObject("titulos", todosTitulos);
-		return mv;
+	@RequestMapping(value = "/{codigo}/receber", method = RequestMethod.PUT)
+	public @ResponseBody String receber(@PathVariable Long codigo) {
+		// @ResponseBody diz ao Spring que você não está procurando um template no retorno, 
+		// mas sim retornando uma String comum. Isto lhe permitirá recuperar esta String no JavaScript
+		
+		cadastroTituloService.receber(codigo);
+		
+		return StatusTitulo.RECEBIDO.getDescricao();
+		
 	}
 	
 	@ModelAttribute("todosStatusTitulo")

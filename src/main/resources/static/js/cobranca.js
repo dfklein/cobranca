@@ -24,6 +24,33 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal', function(event) { // captura 
 
 $(function() {
 	// Função que aciona o tooltip do bootstrap
-	$('[rel="tooltip"]').tooltip();
+	$('[rel="tooltip"]').tooltip(); // essa chave [ funciona como um tipo de if: recupera todos os "rel" que são iguais a "tooltip". O método tooltip() é o que ativa o componente
 	$('.js-currency').maskMoney({decimal: ',', thousands: '.', allowZero: true});
+	$('.js-atualizar-status').on('click', function(event) {
+		event.preventDefault(); // isto faz com que ele não permita o comportamento padrão do href
+		
+		var botaoReceber = $(event.currentTarget);
+		var urlReceber = botaoReceber.attr('href');
+		
+		console.log('urlReceber: ', urlReceber);
+		
+		var response = $.ajax({
+			url: urlReceber,
+			type: 'PUT'
+		});
+		
+		response.done(function(e) { // este "e" recebe o retorno do método do java. Não entendi como isso funciona.
+			var codigoTitulo = botaoReceber.data('codigo');
+			$('[data-role=' + codigoTitulo + ']').html('<span class="label label-success">' + e + '</span>');
+			botaoReceber.hide();
+			
+		});
+		
+		response.fail(function(e) {
+			console.log(e);
+			alert('Erro recebendo cobrança');
+		});
+		
+		
+	});
 })
