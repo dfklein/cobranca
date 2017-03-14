@@ -21,3 +21,9 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal', function(event) { // captura 
 //	e assim ele saberá o ID do registro que ele deve excluir.
 	
 });
+
+$(function() {
+	// Função que aciona o tooltip do bootstrap
+	$('[rel="tooltip"]').tooltip();
+	$('.js-currency').maskMoney({decimal: ',', thousands: '.', allowZero: true});
+})
