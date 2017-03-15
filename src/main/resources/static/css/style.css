@@ -1,13 +1,15 @@
-.navbar-brand {
-	padding-top: 12px;
+/* Tela grande */
+@media (min-width : 760) { /* tudo o que estiver dentro deste conjunto tem este estilo com até 760px de largura */
+	.navbar-brand {
+		padding-top: 12px;
+	}
+	.alert {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
 }
 
 .panel-default {
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
-.alert {
 	margin-left: 10px;
 	margin-right: 10px;
 }
